@@ -1,0 +1,141 @@
+//C++ Program starts
+#include<iostream>
+#include<string>
+#include<iomanip>
+#include<conio.h>
+#include<windows.h>
+using namespace std;
+
+class atm{
+public:
+int  account_num;
+int balance;
+string mobile_orignal;
+string name;
+int pin;
+
+
+void set(int a_n,int b,string m_n,string n,int p){
+    account_num=a_n;
+    balance=b;
+    mobile_orignal=m_n;
+    name=n;
+    pin=p;
+}
+
+int get_bal(){return balance;}
+int get_acc(){return account_num;}
+string get_mob(){return mobile_orignal;}
+int getpin(){return pin;}
+string get_name(){return name;}
+};
+
+
+class update_mobile_num:public atm{
+public:
+void update_mobilenum(atm &obj,string mobile_prev,string mobile_new){
+if (mobile_prev==obj.mobile_orignal)
+{
+    obj.mobile_orignal=mobile_new;
+    cout<<"Successfully Updated the Mobile Number ";
+}
+else{
+    cout<<"Incorrect Number entered!";
+}
+getch();
+}
+};
+
+
+class cashwithdraw:public atm{
+public:
+void withdraw(atm &obj,int a){
+if(a>0 && a<balance){
+    obj.balance-=a;
+    cout<<"Successfully withdrawn (:"<<endl;
+    cout<<"Remaining Balance: "<<obj.balance;
+    getch();
+}
+else {
+    cout<<"Insufficient balance!";
+}
+}
+};
+
+
+int main()
+{
+int amount;
+int choice;
+string mobile_num;
+string mobile_pre;
+atm user1,user2;
+cashwithdraw c_with;
+update_mobile_num update;
+
+cout<<"-----------WELCOME TO The PURE BANKING SYSTEM-----------"<<endl;
+system("COLOR 18");
+user1.set(1234567,10000,"000","Umer",6767);
+
+do{
+system("cls");
+cout<<"Enter Account Number : ";       cin>>user2.account_num;
+cout<<"Enter PIN: ";                   cin>>user2.pin;
+
+if (user2.account_num==user1.get_acc() && user2.pin==user1.getpin()){
+do{
+system("cls");
+cout<<"~~~~~WELCOME To The ATM~~~~~"<<endl;
+
+cout<<"1. Check Balance "<<endl;
+cout<<"2. Cash Withdraw "<<endl;
+cout<<"3. Show User details "<<endl;
+cout<<"4. Update Mobile number "<<endl;
+cout<<"5. Exit "<<endl;
+
+cout<<"Select Option "<<endl;
+cin>>choice;
+
+switch (choice)
+{
+case 1:
+cout<<"Your Bank Balance: ";
+  cout<<user1.get_bal();
+  getch();
+break;
+
+case 2:
+cout<<"Enter Amount you want to Withdraw: ";    cin>>amount;
+c_with.withdraw(user1,amount);
+  getch();
+break;
+
+case 3:
+cout<<"Name: "<<user1.get_name()<<endl;
+cout<<"Account Number: "<<user1.get_acc()<<endl;
+cout<<"Balance: "<<user1.get_bal()<<endl;
+cout<<"Mobile number: "<<user1.get_mob()<<endl;
+  getch();
+break;
+
+case 4:
+cout<<"Enter previous Mobile number: "; cin>>mobile_pre;
+cout<<"Enter new Mobile number: ";     cin>>mobile_num;
+update.update_mobilenum(user1,mobile_pre,mobile_num);
+  getch();
+  break;
+
+case 5:
+exit(0);
+break;
+default:
+cout<<"Invalid Option!"<<endl;
+    break;
+}
+} 
+while(1);
+}
+}
+while(1);
+return 0;
+}
